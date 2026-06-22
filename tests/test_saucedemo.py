@@ -81,3 +81,64 @@ def test_logout_success(driver):
 
     assert username_input.is_displayed()
     assert driver.current_url == BASE_URL
+
+
+def test_login_failure(driver):
+    """TC04: Kiểm thử đăng nhập thất bại với sai mật khẩu."""
+    driver.get(BASE_URL)
+    wait = WebDriverWait(driver, 10)
+
+    username_input = wait.until(EC.visibility_of_element_located((By.ID, "user-name")))
+    username_input.clear()
+    username_input.send_keys(USERNAME)
+
+    password_input = driver.find_element(By.ID, "password")
+    password_input.clear()
+    password_input.send_keys("wrong_password")
+
+    driver.find_element(By.ID, "login-button").click()
+
+    error_message = wait.until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error']"))
+    )
+    assert "Username and password do not match any user in this service" in error_message.text
+
+
+def test_remove_product_from_cart(driver):
+    """TC05: Kiểm thử xóa sản phẩm khỏi giỏ hàng."""
+    login(driver)
+    wait = WebDriverWait(driver, 10)
+
+    driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
+
+    cart_badge = wait.until(
+        EC.visibility_of_element_located((By.CLASS_NAME, "shopping_cart_badge"))
+    )
+    assert cart_badge.text == "1"
+
+    driver.find_element(By.ID, "remove-sauce-labs-backpack").click()
+
+    wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, "shopping_cart_badge")))
+    badges = driver.find_elements(By.CLASS_NAME, "shopping_cart_badge")
+    assert len(badges) == 0
+
+
+def test_checkout_workflow(driver):
+    """TC06: Kiểm thử quy trình thanh toán (Checkout)."""
+    login(driver)
+    wait = WebDriverWait(driver, 10)
+
+    driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
+    driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+
+    wait.until(EC.element_to_be_clickable((By.ID, "checkout"))).click()
+
+    wait.until(EC.visibility_of_element_located((By.ID, "first-name"))).send_keys("Test")
+    driver.find_element(By.ID, "last-name").send_keys("User")
+    driver.find_element(By.ID, "postal-code").send_keys("12345")
+
+    driver.find_element(By.ID, "continue").click()
+
+    wait.until(EC.url_contains("checkout-step-two.html"))
+    summary_total_label = driver.find_element(By.CLASS_NAME, "summary_total_label")
+    assert "Total" in summary_total_label.text
