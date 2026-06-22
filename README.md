@@ -45,13 +45,7 @@ selenium-practice/
 
 ## 6. Cách cài đặt và chạy project
 
-### Bước 1: Clone repository
-
-```bash
-git clone <link-repo-github-cua-ban>
-cd selenium-practice
-```
-### Bước 2: Cài thư viện cần thiết
+### Bước 1: Cài thư viện cần thiết
 
 ```bash
 pip install -r requirements.txt
@@ -59,13 +53,13 @@ pip install -r requirements.txt
 
 Lưu ý: Máy cần cài sẵn trình duyệt Microsoft Edge. Selenium 4 sẽ tự quản lý EdgeDriver bằng Selenium Manager nên thường không cần tải driver thủ công.
 
-### Bước 3: Chạy test
+### Bước 2: Chạy test
 
 ```bash
 pytest
 ```
 
-### Bước 4: Xuất báo cáo HTML
+### Bước 3: Xuất báo cáo HTML
 
 ```bash
 pytest --html=reports/report.html --self-contained-html
