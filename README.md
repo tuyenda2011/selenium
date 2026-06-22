@@ -104,4 +104,3 @@ Sinh viên có thể chụp thêm các hình ảnh sau và đưa vào README:
 Qua bài thực hành này, em đã hiểu cách sử dụng Selenium để tự động hóa thao tác trên trình duyệt.  
 Em cũng biết cách viết test case bằng pytest, chạy kiểm thử tự động và xuất báo cáo kiểm thử bằng pytest-html.  
 Selenium là công cụ hữu ích trong kiểm thử phần mềm, đặc biệt đối với kiểm thử chức năng giao diện web.
-```
